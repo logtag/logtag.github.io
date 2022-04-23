@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 配置环境变量 · logtag</title><meta name="description" content="配置环境变量 - logtag"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="logtag"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="logtag" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/logtag" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">配置环境变量</h1><div class="post-info">Dec 6, 2017</div><div class="post-content"><p>本文将介绍如何利用 Build Configurations 配置环境变量。</p>
+<span id="more"></span>
+
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在一般的测试中，我们都会在不同的场景下进行测试。例如，DEV(Development System)，UAT(User Acceptance Testing) ，SIT(System Integration Testing) 等各种场景。在这些场景中，我们可能会赋予 App 不同的形式和功能，以方便团队的开发测试。例如 App 名字（ProjectDEV，ProjectUA），图标（图片1，图片2）等。另外一些实验性的功能并不会在发布场景下出现，但在 DEV 下会保留。</p>
+<p>因此，如何快速地在各个场景中切换，是我们必须要面对的问题。处理不同场景的切换的方法一般有 3 种。分别是：</p>
+<ul>
+<li>Build Configurations</li>
+<li>xcconfig 文件</li>
+<li>Targets</li>
+</ul>
+<p>目前本文只探讨 Build Configurations 的使用，至于 xcconfig 文件和 Targets，以后有机会再分享。</p>
+<p>Build Configurations 顾名思义是配置的意思，它是 Xcode 上的一个用来配置各种环境的功能。在新建一个项目后，在 Project-&gt;Info 那里就会看到 Configurations。它有 Debug 和 Release 2 个选项。</p>
+<h4 id="各种环境"><a href="#各种环境" class="headerlink" title="各种环境"></a>各种环境</h4><p>接下来，我们就可以利用 Configurations 配置需要的环境。例如，我们需要一个 DEV 环境用来自测，一个 UAT 环境用来给测试人员以及一个 Production 版本上线。我们在 Build 的时候就需要 Build 3 个版本了。另外，为了方便调试代码，我们还会做一些额外的工作。正如 Xcode 上默认的那 2 个环境（Debug 和 Release）那样，区分好调试的环境和出 Build 的环境。如此算来，就要 2＊3 &#x3D; 6 种环境了。分别是 DebugDEV, DebugUAT, DebugProduction, DEV, UAT, Production。</p>
+<p>一般来说，带有 Debug 前缀的环境是方便程序员来调试的。例如自定义的 NSLog，在 Debug 的时候，会在控制台输出各种信息。但出 Build 的时候会禁用掉 NSLog，毕竟那也会影响一丢丢性能的。</p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>配置环境变量的步骤比较简单：</p>
+<ol>
+<li><p>在 <code>PROJECT</code> –&gt; <code>Info</code> –&gt; <code>Configurations</code> 点击“+”按钮，将会看到 Duplicate “Debug” Configuration 和 Duplicate “Release” Configuration 2 个选项；</p>
+</li>
+<li><p>这 2 个选项对应调试环境和出 Build 的环境，所以我们需要分别对 <code>Debug</code> 和 <code>Release</code> 复制出 DEV, UAT, Production 这 3 个环境变量。即 <code>Debug</code> 下复制出 DebugDEV, DebugUAT, DebugProduction。<code>Release</code> 复制出 DEV, UAT, Production；<img src="/../image/config_list.png"></p>
+</li>
+<li><p>在 <code>TARGETS</code> –&gt; <code>Build Settings</code> 那里找到 Preprocessor Macros，系一些宏定义，方便区分各种环境。<img src="/../image/config_macros.png"></p>
+</li>
+</ol>
+<h4 id="CocoaPods"><a href="#CocoaPods" class="headerlink" title="CocoaPods"></a>CocoaPods</h4><p>需要注意的是，如果你的项目中有用到 CocoaPods，那么在设置完后就需要运行一下 pod install 命令。</p>
+<p>一般情况下做到这里，一个简易的可控环境变量就完成了。需要 Build app 的时候，只需要到 Edit Scheme -&gt; Archive -&gt; Build Configuration 中选择好对应的环境就可以了。</p>
+<h4 id="结合-Scheme"><a href="#结合-Scheme" class="headerlink" title="结合 Scheme"></a>结合 Scheme</h4><p>我们可以通过 Scheme 与 Build Configurations 结合使用，达到更方便切换环境的目的。</p>
+<p>方法很简单。在 Scheme 那里选中 New Scheme 并输入名字。本文定义了 DEV, UAT 和 Release 的环境。所以对应的 Scheme 名字也遵循这个规律。可以在项目名加上前缀或后缀，如 ProjectDEV。</p>
+<p>接着就是 Edit Scheme，在 Edit Scheme 页面配置好对应的环境。如在 ProjectDEV 的 Scheme 里面，Run 选项选择 DebugDev，Archive 那里选择 DEV。选好对应的环境后，就大功告成了。</p>
+<p>想要换一个环境直接选中对应的选项就可以 了。想要出 UAT 的 Build，选中 ProjectUAT 后直接 Archive 就可以了。现在是一个 Scheme 对应一个环境。比原来需要进入 Scheme 选对应的环境方便多了。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>利用 Build Configurations 配置环境变量相对于其他的方法有着如下优点：</p>
+<ol>
+<li>操作简单容易，不需要通过代码来区分环境，相对于 xcconfig 文件，这一点上，容易理解。</li>
+<li>对项目影响比较小。通过 Targets 来区分环境的一个缺点就是：复制一个 Targets 就相当于复制了整个项目，有点用牛刀的感觉。另外的一点就是，以后添加资源文件等，都需要确定这些资源文件都要支持到当前这个 Targets。而 Build Configurations 则不需要这些考虑。</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/custom_tabbar/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2022 <a href="http://example.com">logtag</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
