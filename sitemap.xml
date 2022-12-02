@@ -2,7 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/build_blog/</loc>
+    <loc>http://example.com/build_configurations/</loc>
+    
+    <lastmod>2022-12-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/custom_tabbar/</loc>
+    
+    <lastmod>2022-12-02</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/custom_headerfooterview/</loc>
     
     <lastmod>2022-12-02</lastmod>
     
@@ -13,34 +31,16 @@
   <url>
     <loc>http://example.com/custom_uiview/</loc>
     
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-12-02</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/custom_tabbar/</loc>
+    <loc>http://example.com/build_blog/</loc>
     
-    <lastmod>2022-04-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/custom_headerfooterview/</loc>
-    
-    <lastmod>2022-04-23</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/build_configurations/</loc>
-    
-    <lastmod>2022-04-23</lastmod>
+    <lastmod>2022-12-02</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

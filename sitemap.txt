@@ -1,8 +1,8 @@
-http://example.com/build_blog/
-http://example.com/custom_uiview/
+http://example.com/build_configurations/
 http://example.com/custom_tabbar/
 http://example.com/custom_headerfooterview/
-http://example.com/build_configurations/
+http://example.com/custom_uiview/
+http://example.com/build_blog/
 http://example.com/
 http://example.com/tags/Blog/
 http://example.com/tags/Configurations/
